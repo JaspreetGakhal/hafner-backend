@@ -15,4 +15,10 @@ app.use('/api/customers', router);
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+
+  app.get('/', (req, res) => {
+  res.send('✅ Hafner backend is running.');
 });
+
+});
+
