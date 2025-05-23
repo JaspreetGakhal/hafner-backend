@@ -1,16 +1,22 @@
 const express = require('express');
-const router = express.Router();
+const cors = require('cors');
+const app = express();
+require('dotenv').config();
 
-router.post('/', async (req, res) => {
-  try {
-    console.log('✅ Form submission received:', req.body);
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-    // TEMP: just simulate a success without DB or email
-    return res.status(200).json({ message: 'Success: Dummy handler active' });
-  } catch (err) {
-    console.error('❌ Server crash:', err);
-    return res.status(500).json({ message: 'Internal Error' });
-  }
+// ✅ This connects to your existing route logic in routes/contact.js
+app.use('/api/customers', require('./routes/contact'));
+
+// ✅ Optional route to check backend is alive
+app.get('/', (req, res) => {
+  res.send('Backend is running successfully 🎉');
 });
 
-module.exports = router;
+// ✅ Start the server on the Render-assigned port
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});
