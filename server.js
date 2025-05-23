@@ -3,20 +3,26 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
+// Catch-all error logging
+process.on('uncaughtException', (err) => console.error('🔥 Uncaught Exception:', err));
+process.on('unhandledRejection', (reason) => console.error('🔥 Unhandled Rejection:', reason));
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// ✅ This connects to your existing route logic in routes/contact.js
+// REGISTER ROUTE
 app.use('/api/customers', require('./routes/contact'));
 
-// ✅ Optional route to check backend is alive
+// Test root
 app.get('/', (req, res) => {
   res.send('Backend is running successfully 🎉');
 });
 
-// ✅ Start the server on the Render-assigned port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+
+module.exports = router;
